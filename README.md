@@ -5,7 +5,7 @@ Basic chess game developed using the [Love2D](https://love2d.org) game framework
 # Features
  - [x] 2-player game
  - [ ] AI gameplay
- - [ ] **En passant**
+ - [ ] *En passant*
  - [ ] Castling
  - [ ] Pawn promotion
  - [x] Display valid piece moves
