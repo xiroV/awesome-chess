@@ -743,8 +743,11 @@ function isCheckmate(color)
 end
 
 
-function movePiece(from_pos, to_pos)
+function movePiece(from_file, from_rank, to_file, to_rank)
     -- TODO implement tracking of removed pieces
+    from_pos = files[from_file]..ranks[from_rank]
+    to_pos = files[to_file]..ranks[to_rank]
+
     movingPiece = positions[from_pos].piece
     positions[from_pos].piece = nil
     positions[to_pos].piece = movingPiece
@@ -780,6 +783,20 @@ function movePiece(from_pos, to_pos)
         end
     end
 
+    -- Handle pawn promotion
+    if movingPiece.kind == "pawn" then
+        if movingPiece.color == "white" then
+            if to_rank == 8 then
+                positions[to_pos].piece.kind = "queen"
+                positions[to_pos].piece.asset = wqueen
+            end
+        else
+            if to_rank == 1 then
+                positions[to_pos].piece.kind = "queen"
+                positions[to_pos].piece.asset = bqueen
+            end
+        end
+    end
 
     print(colorTurn.." moving "..movingPiece.kind.." from "..from_pos.." to "..to_pos)
 
@@ -873,7 +890,7 @@ function love.mousepressed(x, y, button, istouch)
                     elseif positions[pos].piece == nil or positions[pos].piece.color == getEnemyColor(colorTurn) then
                         for k=1,#possibleMoves,1 do
                             if pos == possibleMoves[k] then
-                                movePiece(selectedPos, pos)
+                                movePiece(selectedFile, selectedRank, j, i)
                                 break
                             end
                         end
