@@ -213,6 +213,53 @@ function getAllPosMoves(piece, file, rank, color)
             end
         end
 
+        -- Castling
+        if color == "white" then
+            -- White castling
+            -- King castling
+            if files[file]..ranks[rank] == "e1" then
+                if not posOccupied(files[file+1]..ranks[rank]) and not posOccupied(files[file+2]..ranks[rank]) then
+                    if posOccupied(files[file+3]..ranks[rank]) then
+                        if positions[files[file+3]..ranks[rank]].piece.kind == "rook" and positions[files[file+3]..ranks[rank]].piece.color == "white" then
+                            posMoves[#posMoves+1] = files[file+2]..ranks[rank]
+                        end
+                    end
+                end
+            end
+            -- Queen castling
+            if files[file]..ranks[rank] == "e1" then
+                if not posOccupied(files[file-1]..ranks[rank]) and not posOccupied(files[file-2]..ranks[rank]) and not posOccupied(files[file-3]..ranks[rank]) then
+                    if posOccupied(files[file-4]..ranks[rank]) then
+                        if positions[files[file-4]..ranks[rank]].piece.kind == "rook" and positions[files[file-4]..ranks[rank]].piece.color == "white" then
+                            posMoves[#posMoves+1] = files[file-2]..ranks[rank]
+                        end
+                    end
+                end
+            end
+        else
+            -- Black castling
+            -- King castling
+            if files[file]..ranks[rank] == "e8" then
+                if not posOccupied(files[file+1]..ranks[rank]) and not posOccupied(files[file+2]..ranks[rank]) then
+                    if posOccupied(files[file+3]..ranks[rank]) then
+                        if positions[files[file+3]..ranks[rank]].piece.kind == "rook" and positions[files[file+3]..ranks[rank]].piece.color == "black" then
+                            posMoves[#posMoves+1] = files[file+2]..ranks[rank]
+                        end
+                    end
+                end
+            end
+            -- Queen castling
+            if files[file]..ranks[rank] == "e8" then
+                if not posOccupied(files[file-1]..ranks[rank]) and not posOccupied(files[file-2]..ranks[rank]) and not posOccupied(files[file-3]..ranks[rank]) then
+                    if posOccupied(files[file-4]..ranks[rank]) then
+                        if positions[files[file-4]..ranks[rank]].piece.kind == "rook" and positions[files[file-4]..ranks[rank]].piece.color == "black" then
+                            posMoves[#posMoves+1] = files[file-2]..ranks[rank]
+                        end
+                    end
+                end
+            end
+        end
+
         return posMoves
     elseif piece == "queen" then
         posMoves = {}
@@ -696,32 +743,61 @@ function isCheckmate(color)
 end
 
 
-function movePiece(from_pos, to_pos, simulate)
+function movePiece(from_pos, to_pos)
     -- TODO implement tracking of removed pieces
     movingPiece = positions[from_pos].piece
     positions[from_pos].piece = nil
     positions[to_pos].piece = movingPiece
 
+    -- Detect castling
+    if movingPiece.kind == "king" then
+        if movingPiece.color == "white" then
+            -- King castling
+            if from_pos == "e1" and to_pos == "g1" then
+                -- move rook
+                positions["f1"].piece = positions["h1"].piece
+                positions["h1"].piece = nil
 
-    if not simulate then
-        print(colorTurn.." moving "..movingPiece.kind.." from "..from_pos.." to "..to_pos)
-
-
-        -- reset selection
-        selectedPos = nil
-        selectedPiece = nil
-        selectedFile = nil
-        selectedRank = nil
-        possibleMoves = {}
-
-        colorTurn = getEnemyColor(colorTurn)    
-
-        if isCheck(colorTurn) then
-            if isCheckmate(colorTurn) then
-                print(colorTurn.." is checkmate, thanks for playing!")
-            else
-                print(colorTurn.." is check")
+            -- Queen castling
+            elseif from_pos == "e1" and to_pos == "c1" then
+                -- moving rook
+                positions["d1"].piece = positions["a1"].piece
+                positions["a1"].piece = nil
             end
+        else
+            -- King castling
+            if from_pos == "e8" and to_pos == "g8" then
+                -- move rook
+                positions["f8"].piece = positions["h8"].piece
+                positions["h8"].piece = nil
+
+            -- Queen castling
+            elseif from_pos == "e8" and to_pos == "c8" then
+                -- moving rook
+                positions["d8"].piece = positions["a8"].piece
+                positions["a8"].piece = nil
+            end
+        end
+    end
+
+
+    print(colorTurn.." moving "..movingPiece.kind.." from "..from_pos.." to "..to_pos)
+
+
+    -- reset selection
+    selectedPos = nil
+    selectedPiece = nil
+    selectedFile = nil
+    selectedRank = nil
+    possibleMoves = {}
+
+    colorTurn = getEnemyColor(colorTurn)    
+
+    if isCheck(colorTurn) then
+        if isCheckmate(colorTurn) then
+            print(colorTurn.." is checkmate, thanks for playing!")
+        else
+            print(colorTurn.." is check")
         end
     end
 end
@@ -797,7 +873,7 @@ function love.mousepressed(x, y, button, istouch)
                     elseif positions[pos].piece == nil or positions[pos].piece.color == getEnemyColor(colorTurn) then
                         for k=1,#possibleMoves,1 do
                             if pos == possibleMoves[k] then
-                                movePiece(selectedPos, pos, false)
+                                movePiece(selectedPos, pos)
                                 break
                             end
                         end
