@@ -1,5 +1,15 @@
 
 function love.load()
+    menu_font = love.graphics.newFont("assets/Quicksand-Medium.ttf", 24)
+    title_font = love.graphics.newFont("assets/Quicksand-Medium.ttf", 50)
+
+    winWidth = love.graphics.getWidth()
+    winHeight = love.graphics.getHeight()
+    menuWidth = 430
+    menuHeight = 150
+
+    menuActive = true
+
     possibleMoves = {}    
 
     selectedPos = nil
@@ -61,8 +71,6 @@ function love.load()
     x = 19
     y = 19
 
-
-
     positions = {}
     for i=8,1,-1 do
         for j=1,8,1 do
@@ -110,6 +118,9 @@ function love.load()
         cen_y = cen_y + 96
         y = y + 96
     end
+
+
+    initMenu() 
 
 end
 
