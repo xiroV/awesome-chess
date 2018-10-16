@@ -64,7 +64,7 @@ local bking = tove.newGraphics(blackKing, 100)
 local blackQueen = love.filesystem.read("assets/queen_black.svg")
 local bqueen = tove.newGraphics(blackQueen, 90)
 
-
+previousMove = {from="", to=""}
 
 cen_x = 65
 cen_y = 45
@@ -625,8 +625,10 @@ function getAllPosMoves(piece, file, rank, color)
 
         return posMoves
 
+    -- Pawn Logic
     elseif piece == "pawn" then
         posMoves = {}
+        -- Black
         if color == "black" then
             if rank > 1 then
                 if not posOccupied(files[file]..ranks[rank-1]) then
@@ -649,6 +651,25 @@ function getAllPosMoves(piece, file, rank, color)
                     end
                 end
 
+                -- En passant
+                if rank == 4 then
+                    if file > 1 then
+                        if previousMove["from"] == files[file-1]..ranks[rank-2] then
+                            if previousMove["to"] == files[file-1]..ranks[rank] then
+                                posMoves[#posMoves+1] = files[file-1]..ranks[rank-1]
+                            end
+                        end
+                    end
+
+                    if file < 8 then
+                        if previousMove["from"] == files[file+1]..ranks[rank-2] then
+                            if previousMove["to"] == files[file+1]..ranks[rank] then
+                                posMoves[#posMoves+1] = files[file+1]..ranks[rank-1]
+                            end
+                        end
+                    end
+                end
+
                 if file < 8 then
                     if posOccupied(files[file+1]..ranks[rank-1]) then
                         if positions[files[file+1]..ranks[rank-1]].piece.color == getEnemyColor(color) then
@@ -657,6 +678,7 @@ function getAllPosMoves(piece, file, rank, color)
                     end 
                 end
             end
+        -- White
         else
             if rank < 8 then
                 if not posOccupied(files[file]..ranks[rank+1]) then
@@ -678,6 +700,25 @@ function getAllPosMoves(piece, file, rank, color)
                         end
                     end
                 end 
+
+                -- En passant
+                if rank == 5 then
+                    if file > 1 then
+                        if previousMove["from"] == files[file-1]..ranks[rank+2] then
+                            if previousMove["to"] == files[file-1]..ranks[rank] then
+                                posMoves[#posMoves+1] = files[file-1]..ranks[rank+1]
+                            end
+                        end
+                    end
+
+                    if file < 8 then
+                        if previousMove["from"] == files[file+1]..ranks[rank+2] then
+                            if previousMove["to"] == files[file+1]..ranks[rank] then
+                                posMoves[#posMoves+1] = files[file+1]..ranks[rank+1]
+                            end
+                        end
+                    end
+                end
 
                 if file < 8 then 
                     if posOccupied(files[file+1]..ranks[rank+1]) then
@@ -747,10 +788,65 @@ function movePiece(from_file, from_rank, to_file, to_rank)
     -- TODO implement tracking of removed pieces
     from_pos = files[from_file]..ranks[from_rank]
     to_pos = files[to_file]..ranks[to_rank]
+    
 
     movingPiece = positions[from_pos].piece
     positions[from_pos].piece = nil
     positions[to_pos].piece = movingPiece
+
+    -- Detect En passant
+    if movingPiece.kind == "pawn" then
+        if movingPiece.color == "white" then
+            if from_rank == 5 then
+                if to_rank == 6 then
+                    if from_file < 8 then
+                        if previousMove["from"] == files[from_file+1]..ranks[from_rank+2] then
+                            if previousMove["to"] == files[from_file+1]..ranks[from_rank] then
+                                if to_file == from_file+1 then
+                                    positions[files[to_file]..ranks[to_rank-1]].piece = nil
+                                end
+                            end
+                        end
+                    end
+                    if from_file > 1 then
+                        if previousMove["from"] == files[from_file-1]..ranks[from_rank+2] then
+                            if previousMove["to"] == files[from_file-1]..ranks[from_rank] then
+                                if to_file == from_file-1 then
+                                    positions[files[to_file]..ranks[to_rank-1]].piece = nil
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        else
+            if from_rank == 4 then
+                if to_rank == 3 then
+                    if from_file < 8 then
+                        if previousMove["from"] == files[from_file+1]..ranks[from_rank-2] then
+                            if previousMove["to"] == files[from_file+1]..ranks[from_rank] then
+                                if to_file == from_file+1 then
+                                    positions[files[to_file]..ranks[to_rank+1]].piece = nil
+                                end
+                            end
+                        end
+                    end
+                    if from_file > 1 then
+                        if previousMove["from"] == files[from_file-1]..ranks[from_rank-2] then
+                            if previousMove["to"] == files[from_file-1]..ranks[from_rank] then
+                                if to_file == from_file-1 then
+                                    positions[files[to_file]..ranks[to_rank+1]].piece = nil
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    previousMove["from"] = from_pos
+    previousMove["to"] = to_pos
 
     -- Detect castling
     if movingPiece.kind == "king" then
