@@ -17,20 +17,30 @@ function initMenu()
         x = love.graphics.getWidth()/2-menuWidth/2,
         y = winHeight/2-menuHeight/2,
         w = 430,
-        h = 150,
-        layout = "grid 2x1"
+        h = 200,
+        layout = "grid 3x1"
     })
 
     panelGrid:add(
          gooi.newButton({
-                text = "Start 2-Player",
+                text = "Player vs. Player",
                 h = 20
             })
             :onRelease(function()
-                print("2-Player Game Started")
                 panelGrid:setVisible(false)
                 menuActive = false
             end),
+
+         gooi.newButton({
+                text = "Player vs. AI (Random)",
+                h = 20
+            })
+            :onRelease(function()
+                aiType = "random"
+                panelGrid:setVisible(false)
+                menuActive = false
+            end),
+ 
        
          gooi.newButton({
                 text = "Quit",

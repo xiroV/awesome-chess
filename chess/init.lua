@@ -8,6 +8,8 @@ function love.load()
     menuWidth = 430
     menuHeight = 150
 
+    aiType = nil
+
     menuActive = true
 
     possibleMoves = {}    

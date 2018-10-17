@@ -9,23 +9,25 @@ function love.mousepressed(x, y, button, istouch)
     if menuActive then
         gooi.pressed()
     else
-        if button == 1 then
-            for i=8,1,-1 do
-                for j=1,8,1 do
-                    pos=files[j]..ranks[i]
-                    if x >= positions[pos].x and x < positions[pos].x + 96
-                        and y >= positions[pos].y and y < positions[pos].y + 96 then
-                        if positions[pos].piece ~= nil and positions[pos].piece.color == colorTurn then
-                            selectedPos = pos
-                            selectedPiece = positions[pos].piece.kind
-                            selectedFile = positions[pos].file
-                            selectedRank = positions[pos].rank
-                            possibleMoves = getPosMoves(selectedPiece, selectedFile, selectedRank, colorTurn)
-                        elseif positions[pos].piece == nil or positions[pos].piece.color == getEnemyColor(colorTurn) then
-                            for k=1,#possibleMoves,1 do
-                                if pos == possibleMoves[k] then
-                                    movePiece(selectedFile, selectedRank, j, i)
-                                    break
+        if aiType == nil or aiType == "random" and colorTurn == "white" then
+            if button == 1 then
+                for i=8,1,-1 do
+                    for j=1,8,1 do
+                        pos=files[j]..ranks[i]
+                        if x >= positions[pos].x and x < positions[pos].x + 96
+                            and y >= positions[pos].y and y < positions[pos].y + 96 then
+                            if positions[pos].piece ~= nil and positions[pos].piece.color == colorTurn then
+                                selectedPos = pos
+                                selectedPiece = positions[pos].piece.kind
+                                selectedFile = positions[pos].file
+                                selectedRank = positions[pos].rank
+                                possibleMoves = getPosMoves(selectedPiece, selectedFile, selectedRank, colorTurn)
+                            elseif positions[pos].piece == nil or positions[pos].piece.color == getEnemyColor(colorTurn) then
+                                for k=1,#possibleMoves,1 do
+                                    if pos == possibleMoves[k] then
+                                        movePiece(selectedFile, selectedRank, j, i)
+                                        break
+                                    end
                                 end
                             end
                         end
@@ -62,6 +64,7 @@ function love.draw()
                 markPosition(pos)
             end
 
+            -- Draw pieces
             if positions[pos].piece ~= nil then
                 love.graphics.translate(positions[pos].center_x, positions[pos].center_y)
                 positions[pos].piece.asset:draw()
