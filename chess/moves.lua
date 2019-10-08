@@ -6,6 +6,7 @@ require"chess/moves/rook"
 require"chess/moves/knight"
 require"chess/moves/pawn"
 require"chess/ai/random"
+require"chess/ai/forward"
 
 function markPosition(pos)
     love.graphics.setColor(0, 1, 0, 1)
@@ -145,6 +146,8 @@ function movePiece(from_file, from_rank, to_file, to_rank)
 
     if aiType == "random" and colorTurn=="black" then
         random_make_move()
+    elseif aiType == "forward" and colorTurn=="black" then
+        forward_make_move()
     end
 end
 
