@@ -31,12 +31,22 @@ function initMenu()
                 menuActive = false
             end),
 
+        --  gooi.newButton({
+        --         text = "Player vs. AI (Random)",
+        --         h = 20
+        --     })
+        --     :onRelease(function()
+        --         aiType = "random"
+        --         panelGrid:setVisible(false)
+        --         menuActive = false
+        --     end),
+
          gooi.newButton({
-                text = "Player vs. AI (Random)",
+                text = "Player vs. AI (Forward)",
                 h = 20
             })
             :onRelease(function()
-                aiType = "random"
+                aiType = "forward"
                 panelGrid:setVisible(false)
                 menuActive = false
             end),
