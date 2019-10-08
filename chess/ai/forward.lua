@@ -38,7 +38,7 @@ function forward_make_move()
         min = 10
         tmpMove = 1
         for j=1, #aiMoves[i], 1 do
-            tmp = tonumber(string.byte(aiMoves[i][j], 1))
+            tmp = tonumber(string.sub(aiMoves[i][j], 2))
             if tmp < min then 
                 min = tmp
                 tmpMove = j
