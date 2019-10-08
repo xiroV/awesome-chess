@@ -143,8 +143,10 @@ function movePiece(from_file, from_rank, to_file, to_rank)
         end
     end
 
-    if aiType == "random" and colorTurn=="black" then
-        random_make_move()
+    if not isCheckmate(colorTurn) then
+        if aiType == "random" and colorTurn=="black" then
+            random_make_move()
+        end
     end
 end
 
