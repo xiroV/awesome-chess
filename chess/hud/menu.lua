@@ -27,6 +27,7 @@ function initMenu()
                 h = 20
             })
             :onRelease(function()
+                prepareGame()
                 panelGrid:setVisible(false)
                 menuActive = false
             end),
@@ -36,6 +37,7 @@ function initMenu()
                 h = 20
             })
             :onRelease(function()
+                prepareGame()
                 aiType = "random"
                 menuActive = false
             end),
