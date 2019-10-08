@@ -37,7 +37,6 @@ function initMenu()
             })
             :onRelease(function()
                 aiType = "random"
-                panelGrid:setVisible(false)
                 menuActive = false
             end),
  
