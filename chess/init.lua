@@ -8,24 +8,6 @@ function love.load()
     menuWidth = 430
     menuHeight = 150
 
-    aiType = nil
-
-    menuActive = true
-
-    possibleMoves = {}    
-
-    selectedPos = nil
-    selectedPiece = nil
-    selectedFile = nil
-    selectedRank = nil
-
-    colorTurn = "white"
-
-    pieceKinds = {"pawn", "rook", "bishop", "knight", "queen", "king"}
-    ranks = {1, 2, 3, 4, 5, 6, 7, 8}
-    files = {"a", "b", "c", "d", "e", "f", "g", "h"}
-
-
     board = love.filesystem.read("assets/board.svg")
     theBoard = tove.newGraphics(board, 800)
 
@@ -66,6 +48,30 @@ function love.load()
     blackQueen = love.filesystem.read("assets/queen_black.svg")
     bqueen = tove.newGraphics(blackQueen, 90)
 
+    prepareGame()
+
+    initMenu() 
+
+end
+
+function prepareGame()
+    aiType = nil
+
+    menuActive = true
+
+    possibleMoves = {}    
+
+    selectedPos = nil
+    selectedPiece = nil
+    selectedFile = nil
+    selectedRank = nil
+
+    colorTurn = "white"
+
+    pieceKinds = {"pawn", "rook", "bishop", "knight", "queen", "king"}
+    ranks = {1, 2, 3, 4, 5, 6, 7, 8}
+    files = {"a", "b", "c", "d", "e", "f", "g", "h"}
+    
     previousMove = {from="", to=""}
 
     cen_x = 65
@@ -120,8 +126,5 @@ function love.load()
     positions["g2"].piece = {color="white", name="pawn7", asset=wpawn, kind="pawn"}
     positions["h2"].piece = {color="white", name="pawn8", asset=wpawn, kind="pawn"}
     
-
-    initMenu() 
-
 end
 

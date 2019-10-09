@@ -138,13 +138,16 @@ function movePiece(from_file, from_rank, to_file, to_rank)
     if isCheck(colorTurn) then
         if isCheckmate(colorTurn) then
             print(colorTurn.." is checkmate, thanks for playing!")
+            menuActive = true
         else
             print(colorTurn.." is check")
         end
     end
 
-    if aiType == "random" and colorTurn=="black" then
-        random_make_move()
+    if not isCheckmate(colorTurn) then
+        if aiType == "random" and colorTurn=="black" then
+            random_make_move()
+        end
     end
 end
 
