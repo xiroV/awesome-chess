@@ -28,7 +28,6 @@ function initMenu()
             })
             :onRelease(function()
                 prepareGame()
-                panelGrid:setVisible(false)
                 menuActive = false
             end),
 
