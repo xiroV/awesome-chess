@@ -4,6 +4,7 @@ require "chess/init"
 require "chess/moves"
 require "chess/utils"
 require "chess/hud/menu"
+require "chess/hud/hud"
 
 function love.mousepressed(x, y, button, istouch)
     if menuActive then
@@ -76,6 +77,8 @@ function love.draw()
     if menuActive then
         drawMenu()
     end
+
+    theHud:draw()
     
 end
 

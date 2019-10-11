@@ -2,6 +2,7 @@
 function love.load()
     menu_font = love.graphics.newFont("assets/Quicksand-Medium.ttf", 24)
     title_font = love.graphics.newFont("assets/Quicksand-Medium.ttf", 50)
+    hud_status_font = love.graphics.newFont("assets/Quicksand-Medium.ttf", 18)
 
     winWidth = love.graphics.getWidth()
     winHeight = love.graphics.getHeight()
@@ -51,6 +52,7 @@ function love.load()
     prepareGame()
 
     initMenu() 
+    theHud = Hud:init()
 
 end
 

@@ -123,7 +123,7 @@ function movePiece(from_file, from_rank, to_file, to_rank)
         end
     end
 
-    print(colorTurn.." moving "..movingPiece.kind.." from "..from_pos.." to "..to_pos)
+    theHud:setStatus(colorTurn.." moving "..movingPiece.kind.." from "..from_pos.." to "..to_pos)
 
 
     -- reset selection
@@ -137,10 +137,10 @@ function movePiece(from_file, from_rank, to_file, to_rank)
 
     if isCheck(colorTurn) then
         if isCheckmate(colorTurn) then
-            print(colorTurn.." is checkmate, thanks for playing!")
+            theHud:setStatus(colorTurn.." is checkmate, thanks for playing!")
             menuActive = true
         else
-            print(colorTurn.." is check")
+            theHud:setStatus(colorTurn.." is check")
         end
     end
 
