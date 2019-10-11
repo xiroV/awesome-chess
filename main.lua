@@ -4,6 +4,7 @@ require "chess/init"
 require "chess/moves"
 require "chess/utils"
 require "chess/hud/menu"
+require "chess/hud/hud"
 
 function love.mousepressed(x, y, button, istouch)
     if menuActive then
@@ -76,9 +77,16 @@ function love.draw()
     if menuActive then
         drawMenu()
     end
+
+    theHud:draw()
     
 end
 
 love.mousereleased = function(x, y, button)
+    if not isCheckmate(colorTurn) then
+        if aiType == "random" and colorTurn=="black" then
+            random_make_move()
+        end
+    end
     gooi.released()
 end

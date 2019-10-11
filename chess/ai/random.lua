@@ -48,9 +48,6 @@ function random_make_move()
         end
     end
 
-    print(toFile)
-    print(toRank)
-
     movePiece(aiPiecePosFrom[chosenPiece].f,
         aiPiecePosFrom[chosenPiece].r,
         toFile,
