@@ -11,7 +11,7 @@ function Hud:init()
 end
 
 function Hud:setStatus(newStatus)
-   self.status = newStatus 
+    self.status = newStatus 
 end
 
 function Hud:draw()

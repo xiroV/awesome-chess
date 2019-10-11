@@ -83,5 +83,10 @@ function love.draw()
 end
 
 love.mousereleased = function(x, y, button)
+    if not isCheckmate(colorTurn) then
+        if aiType == "random" and colorTurn=="black" then
+            random_make_move()
+        end
+    end
     gooi.released()
 end

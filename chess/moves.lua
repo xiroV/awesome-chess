@@ -125,7 +125,6 @@ function movePiece(from_file, from_rank, to_file, to_rank)
 
     theHud:setStatus(colorTurn.." moving "..movingPiece.kind.." from "..from_pos.." to "..to_pos)
 
-
     -- reset selection
     selectedPos = nil
     selectedPiece = nil
@@ -141,12 +140,6 @@ function movePiece(from_file, from_rank, to_file, to_rank)
             menuActive = true
         else
             theHud:setStatus(colorTurn.." is check")
-        end
-    end
-
-    if not isCheckmate(colorTurn) then
-        if aiType == "random" and colorTurn=="black" then
-            random_make_move()
         end
     end
 end
