@@ -18,8 +18,15 @@ function movePiece(from_file, from_rank, to_file, to_rank)
     -- TODO implement tracking of removed pieces
     from_pos = files[from_file]..ranks[from_rank]
     to_pos = files[to_file]..ranks[to_rank]
-    
+
     movingPiece = positions[from_pos].piece
+
+    -- Detect captures
+    if positions[to_pos].piece ~= nil then
+        theHud:setStatus(movingPiece.color.." "..movingPiece.kind.." captured "..positions[to_pos].piece.color.." "..positions[to_pos].piece.kind)
+        theHud:addCapture(positions[to_pos].piece)
+    end
+
     positions[from_pos].piece = nil
     positions[to_pos].piece = movingPiece
 
