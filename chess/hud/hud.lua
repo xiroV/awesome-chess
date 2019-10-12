@@ -28,8 +28,6 @@ function Hud:draw()
 end
 
 function Hud:addCapture(piece)
-    -- pi = piece.asset:clone()
-    -- pi:rescale(30)
     pi = piece.asset
     table.insert(self.captures, pi)
 end
