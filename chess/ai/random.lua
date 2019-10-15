@@ -6,7 +6,12 @@ function table.empty (self)
 end
 
 function random_make_move()
-    os.execute("sleep " .. tonumber(1))      
+    if os.getenv("HOME") == nil then
+        os.execute("ping -n 2 localhost > NUL")
+    else
+        os.execute("sleep " .. tonumber(1))
+    end
+    
     local aiMoves = {}
     local aiPiecePosFrom = {}
     local aiPiecePosTo = {}
