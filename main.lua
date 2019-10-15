@@ -9,7 +9,7 @@ function love.mousepressed(x, y, button, istouch)
     if menuActive then
         gooi.pressed()
     else
-        if aiType == nil or aiType == "random" or aiType == "forward" and colorTurn == "white" then
+        if aiType == nil or ((aiType == "random" or aiType == "forward") and colorTurn == "white") then
             if button == 1 then
                 for i=8,1,-1 do
                     for j=1,8,1 do
