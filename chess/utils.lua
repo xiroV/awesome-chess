@@ -26,10 +26,10 @@ end
 function isCheck(color)
     for i=8,1,-1 do
         for j=1,8,1 do
-            pos = files[i]..ranks[j]
+            pos = files[j]..ranks[i]
             if posOccupied(pos) then
                 if positions[pos].piece.color == getEnemyColor(color) then
-                    posMoves = getAllPosMoves(positions[pos].piece.kind, i, j, getEnemyColor(color))
+                    posMoves = getAllPosMoves(positions[pos].piece.kind, j, i, getEnemyColor(color))
 
                     for p=1, table.len(posMoves), 1 do
                         if posOccupied(posMoves[p]) then
