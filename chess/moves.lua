@@ -161,7 +161,8 @@ function getPosCheckMoves(piece, file, rank, color)
     for p=1, #allPosMoves, 1 do
         oldPiece = positions[allPosMoves[p]].piece
         positions[allPosMoves[p]].piece = positions[curPos].piece
-        positions[curPos].piece = oldPiece
+        -- positions[curPos].piece = oldPiece
+        positions[curPos].piece = nil
         if not isCheck(color) then
             checkedPosMoves[#checkedPosMoves+1] = allPosMoves[p]
         end
