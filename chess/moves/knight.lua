@@ -1,3 +1,9 @@
+--
+-- This Source Code Form is subject to the terms of the Mozilla Public
+-- License, v. 2.0. If a copy of the MPL was not distributed with this
+-- file, You can obtain one at http://mozilla.org/MPL/2.0/.
+--
+
 function get_pos_moves_knight(file, rank, color)
     posMoves = {}
     if rank > 1 and file > 2 then
