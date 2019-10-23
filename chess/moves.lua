@@ -150,14 +150,6 @@ function movePiece(from_file, from_rank, to_file, to_rank)
             theHud:setStatus(colorTurn.." is check")
         end
     end
-
-    if not isCheckmate(colorTurn) then
-        if aiType == "random" and colorTurn=="black" then
-            random_make_move()
-        elseif aiType == "forward" and colorTurn=="black" then
-            forward_make_move()
-        end
-    end
 end
 
 
