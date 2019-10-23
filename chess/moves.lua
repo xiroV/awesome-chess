@@ -6,6 +6,7 @@ require"chess/moves/rook"
 require"chess/moves/knight"
 require"chess/moves/pawn"
 require"chess/ai/random"
+require"chess/ai/forward"
 
 function markPosition(pos)
     love.graphics.setColor(0, 1, 0, 1)
