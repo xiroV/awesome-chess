@@ -5,13 +5,13 @@ function table.empty (self)
     return true
 end
 
-function random_make_move()
+function forward_make_move()
     if os.getenv("HOME") == nil then
         os.execute("ping -n 2 localhost > NUL")
     else
         os.execute("sleep " .. tonumber(1))
     end
-
+    
     local aiMoves = {}
     local aiPiecePosFrom = {}
     local aiPiecePosTo = {}
@@ -32,9 +32,30 @@ function random_make_move()
         end
     end
 
+    local chosenPiece = 0
+    local chosenPos = 0
+
+    -- get move closest to enemy lines for each piece
+    local fwdMoves = {}
+    local min, tmp = 0, 0
+    local tmpMove = 0
+    for i=1, #aiMoves, 1 do
+        min = 10
+        tmpMove = 1
+        for j=1, #aiMoves[i], 1 do
+            tmp = tonumber(string.sub(aiMoves[i][j], 2))
+            if tmp < min then 
+                min = tmp
+                tmpMove = j
+            end
+        end
+        fwdMoves[i] = tmpMove
+    end
+
+    -- chose a random piece and move that as far forward as possible
     math.randomseed(os.time())
-    chosenPiece = math.random(1, #aiMoves)
-    chosenPos = math.random(1, #aiMoves[chosenPiece])
+    chosenPiece = math.random(1, #fwdMoves)
+    chosenPos = fwdMoves[chosenPiece]
 
     local toFile
     local toRank
@@ -48,6 +69,9 @@ function random_make_move()
             end
         end
     end
+
+    print(toFile)
+    print(toRank)
 
     movePiece(aiPiecePosFrom[chosenPiece].f,
         aiPiecePosFrom[chosenPiece].r,
