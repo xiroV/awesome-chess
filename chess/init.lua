@@ -5,9 +5,9 @@
 --
 
 function love.load()
-    menu_font = love.graphics.newFont("assets/Quicksand-Medium.ttf", 24)
-    title_font = love.graphics.newFont("assets/Quicksand-Medium.ttf", 50)
-    hud_status_font = love.graphics.newFont("assets/Quicksand-Medium.ttf", 18)
+    menu_font = love.graphics.newFont("assets/fonts/Quicksand-Medium.ttf", 24)
+    title_font = love.graphics.newFont("assets/fonts/Quicksand-Medium.ttf", 50)
+    hud_status_font = love.graphics.newFont("assets/fonts/Quicksand-Medium.ttf", 18)
 
     winWidth = love.graphics.getWidth()
     winHeight = love.graphics.getHeight()
@@ -17,41 +17,41 @@ function love.load()
     board = love.filesystem.read("assets/board.svg")
     theBoard = tove.newGraphics(board, 800)
 
-    whitePawn = love.filesystem.read("assets/pawn_white.svg")
+    whitePawn = love.filesystem.read("assets/pieces/pawn_white.svg")
     wpawn = tove.newGraphics(whitePawn, 70)
 
-    whiteRook = love.filesystem.read("assets/rook_white.svg")
+    whiteRook = love.filesystem.read("assets/pieces/rook_white.svg")
     wrook = tove.newGraphics(whiteRook, 80)
 
-    whiteKnight = love.filesystem.read("assets/knight_white.svg")
+    whiteKnight = love.filesystem.read("assets/pieces/knight_white.svg")
     wknight = tove.newGraphics(whiteKnight, 90)
 
-    whiteBishop = love.filesystem.read("assets/bishop_white.svg")
+    whiteBishop = love.filesystem.read("assets/pieces/bishop_white.svg")
     wbishop = tove.newGraphics(whiteBishop, 100)
 
-    whiteKing = love.filesystem.read("assets/king_white.svg")
+    whiteKing = love.filesystem.read("assets/pieces/king_white.svg")
     wking = tove.newGraphics(whiteKing, 100)
 
-    whiteQueen = love.filesystem.read("assets/queen_white.svg")
+    whiteQueen = love.filesystem.read("assets/pieces/queen_white.svg")
     wqueen = tove.newGraphics(whiteQueen, 90)
 
 
-    blackPawn = love.filesystem.read("assets/pawn_black.svg")
+    blackPawn = love.filesystem.read("assets/pieces/pawn_black.svg")
     bpawn = tove.newGraphics(blackPawn, 70)
 
-    blackRook = love.filesystem.read("assets/rook_black.svg")
+    blackRook = love.filesystem.read("assets/pieces/rook_black.svg")
     brook = tove.newGraphics(blackRook, 80)
 
-    blackKnight = love.filesystem.read("assets/knight_black.svg")
+    blackKnight = love.filesystem.read("assets/pieces/knight_black.svg")
     bknight = tove.newGraphics(blackKnight, 90)
 
-    blackBishop = love.filesystem.read("assets/bishop_black.svg")
+    blackBishop = love.filesystem.read("assets/pieces/bishop_black.svg")
     bbishop = tove.newGraphics(blackBishop, 100)
 
-    blackKing = love.filesystem.read("assets/king_black.svg")
+    blackKing = love.filesystem.read("assets/pieces/king_black.svg")
     bking = tove.newGraphics(blackKing, 100)
 
-    blackQueen = love.filesystem.read("assets/queen_black.svg")
+    blackQueen = love.filesystem.read("assets/pieces/queen_black.svg")
     bqueen = tove.newGraphics(blackQueen, 90)
 
     prepareGame()
