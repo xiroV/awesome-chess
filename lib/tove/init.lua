@@ -299,24 +299,36 @@ tove = {}
 tove.init = function(path)
 
 	local dynamicLibraryPathResolver = function(path)
+
+		local isNixStylePath = function(path)
+			if path == nil then
+				return path -- fail
+			end
+			return path:match(".*/.*") ~= nil -- Main assumption here is that Windows path don't contain "/"
+		end
+
 		local libName = {
 			["OS X"] = "libTove.dylib",
 			["Windows"] = "libTove.dll",
 			["Linux"] = "libTove.so"
 		}
+
 		local envPath = os.getenv("TOVE_DYNAMIC_LIB_PREFIX")
 
 		if envPath == nil then
 			if path == nil then
-				return debug.getinfo(2, "S").source:sub(2):match("(.*[/\\])") .. libName[love.system.getOS()]
-					-- the original solution just with a consession to Windows style paths
+				local suffix = debug.getinfo(2, "S").source:sub(2):match("(.*[/\\])") .. libName[love.system.getOS()]
+				local prefix = love.filesystem.getSource()
+				if isNixStylePath(suffix) then
+					return prefix .. "/" .. suffix -- the original solution just with a consession to Windows style paths
+				else
+					return prefix .. "\\" .. suffix
+				end
 			else
-				return path
-					-- the input path overrides everything
+				return path -- the input path overrides everything
 			end
 		else
-			local isNixStylePrefix = envPath:match(".*/.*") ~= nil -- Main assumption here is that Windows path don't contain "/"
-			if isNixStylePrefix then
+			if isNixStylePath(envPath) then
 				return envPath .. "/" .. libName[love.system.getOS()] -- Environmentable variable stripes the ending slash of the directory prefix
 			else
 				return envPath .. "\\" .. libName[love.system.getOS()]
