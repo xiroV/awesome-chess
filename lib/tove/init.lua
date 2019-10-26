@@ -297,15 +297,34 @@ void ReleaseMesh(ToveMeshRef mesh);
 tove = {}
 
 tove.init = function(path)
-	local libName = {
-		["OS X"] = "libTove.dylib",
-		["Windows"] = "libTove.dll",
-		["Linux"] = "libTove.so"
-	}
 
-	local basepath = debug.getinfo(2, "S").source:sub(2):match("(.*/)")
+	local dynamicLibraryPathResolver = function(path)
+		local libName = {
+			["OS X"] = "libTove.dylib",
+			["Windows"] = "libTove.dll",
+			["Linux"] = "libTove.so"
+		}
+		local envPath = os.getenv("TOVE_DYNAMIC_LIB_PREFIX")
 
-	local lib = ffi.load(basepath .. libName[love.system.getOS()])
+		if envPath == nil then
+			if path == nil then
+				return debug.getinfo(2, "S").source:sub(2):match("(.*[/\\])") .. libName[love.system.getOS()]
+					-- the original solution just with a consession to Windows style paths
+			else
+				return path
+					-- the input path overrides everything
+			end
+		else
+			local isNixStylePrefix = envPath:match(".*/.*") ~= nil -- Main assumption here is that Windows path don't contain "/"
+			if isNixStylePrefix then
+				return envPath .. "/" .. libName[love.system.getOS()] -- Environmentable variable stripes the ending slash of the directory prefix
+			else
+				return envPath .. "\\" .. libName[love.system.getOS()]
+			end
+		end
+	end
+
+	local lib = ffi.load(dynamicLibraryPathResolver(path))
 	tove.lib = lib
 	tove.getVersion = function()
 		return ffi.string(lib.GetVersion())
@@ -2470,3 +2489,5 @@ end)()
 end
 
 tove.init()
+
+return tove
