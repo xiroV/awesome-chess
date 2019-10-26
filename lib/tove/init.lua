@@ -320,10 +320,12 @@ tove.init = function(path)
 				-- original solution was just to use the debug info. Here we prepend the path up to the love dir to get an absolute path
 				local suffix = debug.getinfo(2, "S").source:sub(2):match("(.*[/\\])") .. libName[love.system.getOS()]
 				local prefix = love.filesystem.getSource()
-				if isNixStylePath(suffix) then
+				if isNixStylePath(suffix) and isNixStylePath(prefix) then
 					return prefix .. "/" .. suffix
-				else
+				elseif (not isNixStylePath(suffix)) and (not isNixStylePath(prefix)) then
 					return prefix .. "\\" .. suffix
+				else
+					return suffix
 				end
 			else
 				return path -- the input path overrides everything
