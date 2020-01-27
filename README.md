@@ -41,11 +41,19 @@ Then change to the game directory
 cd awesome-chess
 ```
 
-To run the game
+Build AwesomeChess by running the build script
 
 ```
-love .
+python build.py
 ```
+
+Run AwesomeChess by running
+
+```
+love awesome-chess.love
+```
+
+
 
 
 # Acknowledgements
