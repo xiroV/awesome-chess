@@ -1,1 +1,3 @@
-*.love
+.nvimrc
+*.o
+awesome-chess
