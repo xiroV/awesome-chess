@@ -19,6 +19,7 @@ struct Piece {
     PieceKind kind;
     Color color;
     Position position;
+    Texture2D sprite;
     
     virtual void getPossibleMoves() = 0;
     virtual void draw(Chess* game) = 0;
