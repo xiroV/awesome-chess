@@ -11,30 +11,26 @@ struct Pawn: Piece {
         this->name = name;
         this->position = position;
 
-        Image image = LoadImage("assets/pieces/pawn_white.png");
-        this->sprite = LoadTextureFromImage(image);
+        if (ColorIsEqual(color, WHITE)) {
+            Image image = LoadImage("assets/pieces/pawn_white.png");
+            this->sprite = LoadTextureFromImage(image);
+        } else {
+            Image image = LoadImage("assets/pieces/pawn_black.png");
+            this->sprite = LoadTextureFromImage(image);
+        }
     }
 
     void draw(Chess* game) {
-        if (ColorIsEqual(this->color, BLACK)) {
-            DrawCircle(
-                (game->cellSize * (this->position.x + 1)) + game->boardOffsetX - game->cellSize/2,
-                (game->cellSize * (this->position.y + 1)) + game->boardOffsetY - game->cellSize/2,
-                20,
-                this->color
-            );
-        } else {
-            DrawTextureEx(
-                this->sprite,
-                {
-                    float((game->cellSize * (this->position.x + 1)) + game->boardOffsetX - game->cellSize)+3,
-                    float((game->cellSize * (this->position.y + 1)) + game->boardOffsetY - game->cellSize)-15,
-                },
-                0,
-                2,
-                WHITE
-            );
-        }
+        DrawTextureEx(
+            this->sprite,
+            {
+                float((game->cellSize * (this->position.x + 1)) + game->boardOffsetX - game->cellSize)+3,
+                float((game->cellSize * (this->position.y + 1)) + game->boardOffsetY - game->cellSize)-15,
+            },
+            0,
+            2,
+            WHITE
+        );
     }
 
     void getPossibleMoves() {
